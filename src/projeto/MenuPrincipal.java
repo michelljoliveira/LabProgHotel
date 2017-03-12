@@ -23,7 +23,7 @@ public class MenuPrincipal {
 
 			case 3:		menuContabilidade();break;
 
-			case 4:		System.out.println("Sistema Encerado.");break;
+			case 4:		System.out.println("Sistema Encerrado.");break;
 
 
 			default:    System.out.println("Opção invalida "+System.lineSeparator());
@@ -76,9 +76,10 @@ public class MenuPrincipal {
 	}
 
 	private static void menuCadastroClientes() {
-		imprimeMenuCadastroClientes();
+		
 		int op;
 		do{
+			imprimeMenuCadastroClientes();
 			op = sc.nextInt();
 			switch (op){
 
@@ -87,13 +88,63 @@ public class MenuPrincipal {
 
 			case 2:		menuEditarCliente();break;
 
-			case 3:		break;
+			case 3:		menuRemoverCliente();break;
 
-			case 4:		break;
+			case 4:		mostrarClientesCadastrados();break;
+			
+			case 5:		break;
 
 			default:    System.out.println("Opção invalida "+System.lineSeparator());
 			}
 		}while(op>=1 && op<4);
+		
+	}
+
+	private static void menuRemoverCliente() {
+		boolean condi = true;
+		boolean condi2 = true;
+		do{
+			String nome = obtem("Digite o nome do cliente a ser excluido: ",3);
+			if(retornaCliente(nome) == null){
+				System.out.println(nome +" nao encontrado.");
+				condi = false;
+			}else{
+				Iterator it = clientes.iterator();
+				while(it.hasNext()){
+					if(((Cliente) it.next()).getNome().equals(nome)){
+						do{
+							System.out.println("Voce realmente deseja remover o(a) cliente "+ nome+ "?");
+							System.out.println("1 - Sim ou 2 - Nao");
+							int op = sc.nextInt();
+							if (op == 1){
+								it.remove();
+								System.out.println("O(A) Cliente "+ nome + " foi removido com sucesso."+ System.lineSeparator());
+								condi = false;condi2=false;
+							}else if(op == 2){
+								System.out.println("Remocao Cancelada.");
+								condi = false;condi2=false;
+							}else{
+								System.out.println("Opcao invalida. Digite um valor: 1 - Sim ou 2 - Nao");
+							}
+						}while(condi2);
+					}
+				}
+			}
+		}while(condi);
+	}
+
+	private static void mostrarClientesCadastrados() {
+		Iterator it = clientes.iterator();
+		if(clientes.size() == 0){
+			System.out.println("Nao foram cadastrados clientes ate o momento" + System.lineSeparator());
+		}else{
+			System.out.println("Total de clientes cadastrados: "+ clientes.size()+ System.lineSeparator());
+			while(it.hasNext()){
+				
+				System.out.println(it.next());
+				System.out.println("--------------------"+ System.lineSeparator());
+			}
+		}
 		
 	}
 
@@ -104,44 +155,77 @@ public class MenuPrincipal {
 		String cpf = obtem("Cpf: ",11);
 		Pessoa p1 = new Cliente(nome,sobrenome,cpf);
 		clientes.add(p1);
+		System.out.println("O(A) Cliente "+ nome + " "+ sobrenome+ " foi cadastrado(a) com sucesso."+ System.lineSeparator());
 	}
 	private static void menuEditarCliente() {
 		//TODO
 		System.out.println("Menu Editar Cliente"+System.lineSeparator());
 		int op = 0;
-		boolean condi = false;
-		String nome;
-		Cliente aux = null;
-		
+		boolean condi = true;
 		do{
-			System.out.print("Digite o nome do cliente a ser editado:");
-			nome = sc.next();
-			aux = retornaCliente(nome);
-			if (aux == null) {
-				System.out.println("O cliente" + nome +"nao foi encontrado.");
-			}
-			
-			
-		}while(condi);
-		System.out.println("Digite o campo a ser editado:"+System.lineSeparator()+"1 - Nome; 2 - Sobrenome");
-			
-		
-		do{
+				System.out.println("Digite o campo a ser editado:"+System.lineSeparator()+"1 - Nome; 2 - Sobrenome");
 				op = sc.nextInt();
 				switch (op){
 
 
-				case 1:		nome = obtem("Novo nome",3);break;
+				case 1:		editarNome();condi = false;break;
 
-				case 2:		break;
+				case 2:		editarsobrenome();condi = false;break;
 				
 
 				default:    System.out.println("Opção invalida "+System.lineSeparator());
 				}
-			}while(op>=1 &&op<3);
+			}while(condi);
 		
 	}
 	
+	private static void editarNome() {
+		boolean condi1 = true;
+		boolean condi2 = true;
+		Cliente auxiliar;
+		while(condi1){
+			String nome = obtem("Digite o nome do cliente a ser editado: ",3);
+			if(retornaCliente(nome) == null){
+				System.out.println("Nome nao encontrado.");
+				condi1 = false;
+			}else{
+				auxiliar = retornaCliente(nome);
+				while(condi2){
+					auxiliar.setNome(obtem("Digite o novo nome:", 3));
+					condi2= false;
+					condi1= false;
+					
+				}
+				condi1 = false;
+				condi2= false;
+			}
+			
+		}
+	}
+	private static void editarsobrenome() {
+		boolean condi1 = true;
+		boolean condi2 = true;
+		Cliente auxiliar;
+		while(condi1){
+			String nome = obtem("Digite o nome do cliente a ser editado: ",3);
+			if(retornaCliente(nome) == null){
+				System.out.println("Nome nao encontrado.");
+				condi1 = false;
+			}else{
+				auxiliar = retornaCliente(nome);
+				while(condi2){
+					auxiliar.setSobrenome(obtem("Digite o novo Sobrenome: ", 3));
+					condi2= false;
+					condi1= false;
+					
+				}
+				condi1 = false;
+				condi2= false;
+			}
+			
+		}
+	}
+
 	/**
 	 * Metodo para pesquisa de um cliente atraves do nome
 	 * @param nome A ser pesquisado
@@ -190,7 +274,8 @@ public class MenuPrincipal {
 		System.out.println("1 - Cadastro de novo cliente");
 		System.out.println("2 - Editar um cliente");
 		System.out.println("3 - Remover um cliente");
-		System.out.println("4 - Voltar"+System.lineSeparator());
+		System.out.println("4 - Mostrar Clientes Cadastrados");
+		System.out.println("5 - Voltar"+System.lineSeparator());
 		System.out.print("Opcao: ");
 	}
 	private static void imprimeMenuGerenciaHotel() {

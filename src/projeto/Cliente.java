@@ -29,6 +29,16 @@ public class Cliente implements Pessoa {
 	public String getCpf() {
 		return cpf;
 	}
+	@Override
+	public String toString(){
+		return "Nome do cliente: "+ getNome() + " "+getSobrenome()+ System.lineSeparator()+"Cpf: "+getCpf();
+	}
+
+	@Override
+	public void setSobrenome(String novoSobrenome) {
+		sobrenome = novoSobrenome;
+		
+	}
 
 	
 
