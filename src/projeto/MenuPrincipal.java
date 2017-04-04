@@ -109,6 +109,7 @@ public class MenuPrincipal {
 				System.out.println(nome +" nao encontrado.");
 				condi = false;
 			}else{
+				@SuppressWarnings("rawtypes")
 				Iterator it = clientes.iterator();
 				while(it.hasNext()){
 					if(((Cliente) it.next()).getNome().equals(nome)){
