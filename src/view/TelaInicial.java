@@ -1,13 +1,11 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.HeadlessException;
-import java.awt.Insets;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class TelaInicial extends JFrame {
 
@@ -19,26 +17,24 @@ public class TelaInicial extends JFrame {
 
 	public TelaInicial(){
 	
-		this.setSize(1024,600);
-		this.setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle("Reservas");
+		setSize(1024,768);
+		setLocationRelativeTo(null);
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Reservas");
 		
 		JPanel tela = new JPanel();
 		tela.setLayout(new GridLayout(0,3,2,2));
-	
+
+		
 		IconDemoApp icones = new IconDemoApp();
+		DescricaoHotel descricao = new DescricaoHotel();
 
-		ImageIcon icon = new ImageIcon("/images/sunw01.jpg", "teste");
-		
-		JButton btn7 = new JButton("teste7");
-		
 		tela.add(icones);
-
+		tela.add(descricao);
 		
-		this.add(tela);
-
-		this.setVisible(true);
+		add(tela);
+		setVisible(true);
 		
 		
 	}
