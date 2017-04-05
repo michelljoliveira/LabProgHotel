@@ -26,12 +26,13 @@ public class TelaInicial extends JFrame {
 		JPanel tela = new JPanel();
 		tela.setLayout(new GridLayout(0,3,2,2));
 
-		
 		IconDemoApp icones = new IconDemoApp();
 		DescricaoHotel descricao = new DescricaoHotel();
+		ValorReserva reserva = new ValorReserva();
 
 		tela.add(icones);
 		tela.add(descricao);
+		tela.add(reserva);
 		
 		add(tela);
 		setVisible(true);
