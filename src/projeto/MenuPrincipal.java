@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class MenuPrincipal {
 	private static Scanner sc = new Scanner(System.in);
-	private static ArrayList<Pessoa> clientes = new ArrayList<Pessoa>(); 
+	private static ArrayList<Cliente> clientes = new ArrayList<Cliente>(); 
 
 	public static void main(String[] args) {
 		
@@ -154,7 +154,7 @@ public class MenuPrincipal {
 		String nome = obtem("Nome: ",3);
 		String sobrenome = obtem("Sobrenome: ",3);
 		String cpf = obtem("Cpf: ",11);
-		Pessoa p1 = new Cliente(nome,sobrenome,cpf);
+		Cliente p1 = new Cliente(nome,sobrenome,cpf);
 		clientes.add(p1);
 		System.out.println("O(A) Cliente "+ nome + " "+ sobrenome+ " foi cadastrado(a) com sucesso."+ System.lineSeparator());
 	}

@@ -1,7 +1,7 @@
 package projeto;
 
-public class Cliente implements Pessoa {
-	private String nome,sobrenome,cpf;
+public class Cliente  {
+	private String nome,sobrenome,cpf, senha;
 	
 	public Cliente(String nome,String sobrenome, String cpf){
 		this.nome = nome;
@@ -9,36 +9,44 @@ public class Cliente implements Pessoa {
 		this.cpf = cpf;
 	}
 
-	@Override
 	public String getNome() {
 		return nome;
 	}
-	@Override
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
 	public String getSobrenome() {
 		return sobrenome;
 	}
 
-	@Override
-	public void setNome(String novoNome) {
-		if (!(novoNome.isEmpty())){
-			nome = novoNome;
-		}
+	public void setSobrenome(String sobrenome) {
+		this.sobrenome = sobrenome;
 	}
 
-	@Override
 	public String getCpf() {
 		return cpf;
 	}
-	@Override
-	public String toString(){
-		return "Nome do cliente: "+ getNome() + " "+getSobrenome()+ System.lineSeparator()+"Cpf: "+getCpf();
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	@Override
-	public void setSobrenome(String novoSobrenome) {
-		sobrenome = novoSobrenome;
-		
+	public String toString() {
+		return "Cliente [nome=" + nome + ", sobrenome=" + sobrenome + ", cpf=" + cpf + ", senha=" + senha + "]";
 	}
+
+	
 
 	
 

@@ -15,27 +15,25 @@ import java.util.List;
 public class Hotel {
     
     private List<Quarto> listQuarto = new ArrayList<>();
-    private Quarto quarto;
+    private QuartoSolteiro [] quartoSolteiro;
+    private QuartoCasal[] quartoCasal;
+    private QuartoFamilia[] quartoFamilia;
+    
     
     
     public Hotel(){
         
-        //Inicia o Hotel com 10 quartos 3 para solteiros, 3 para casais e 4 para familia
-        for(int i =0; i <10; i++){
-            quarto = new Quarto();
-            
-            quarto.setNumQuarto(i +1);
-            if(i < 3)
-                quarto.setNumCamas(1);
-            else
-                if(i<6)
-                    quarto.setNumCamas(2);
-            else
-                    quarto.setNumCamas(4);
-            
-            listQuarto.add(quarto);
-            
-        }
+        //Inicia o Hotel com 9 quartos 3 para solteiros, 3 para casais e 4 para familia
+    	quartoSolteiro  = new QuartoSolteiro[3];
+    	quartoCasal = new QuartoCasal[3];
+    	quartoFamilia = new QuartoFamilia[3];
+    	
+    	for(int i=0; i<3; i++){
+    		listQuarto.add(quartoSolteiro[i]);
+    		listQuarto.add(quartoCasal[i]);
+    		listQuarto.add(quartoFamilia[i]);
+    	}
+       
     }
     
     public List getList(){

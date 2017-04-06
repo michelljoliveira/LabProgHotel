@@ -2,14 +2,22 @@ package projeto;
 
 
 import static java.lang.System.lineSeparator;
+
+import java.util.Calendar;
+
 import javax.swing.JPopupMenu;
 
-public  class Quarto {
+public abstract  class Quarto {
     
     private int numQuarto;
     private int numCamas;
     private boolean status;
     private String vista;
+    private Calendar dataEntrada;
+    private Calendar dataSaída;
+    protected double preco;
+    
+    
 
     public Quarto(){
         
@@ -51,7 +59,7 @@ public  class Quarto {
     }
     
     @Override
-    public String toString(){
+    public  String toString(){
         String dispoibilidade = isStatus()?"Disponivel":"Ocupado";
         String string = "Quarto " + getNumQuarto() + lineSeparator() +
                         " Quantidade de Camas: " + getNumCamas() + lineSeparator() +
@@ -60,6 +68,7 @@ public  class Quarto {
         return string;
     }
     
+    public abstract void setPreco(double preco);
     
     
     
