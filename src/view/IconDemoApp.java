@@ -84,8 +84,7 @@ public class IconDemoApp extends JPanel{
     private JLabel photographLabel = new JLabel();
     private JToolBar buttonBar = new JToolBar();
     
-    private String imagedir = "../images/";
-    
+    private String imagedir = "../images/";    
     private MissingIcon placeholderIcon = new MissingIcon();
     
     /**
@@ -110,20 +109,23 @@ public class IconDemoApp extends JPanel{
         photographLabel.setVerticalTextPosition(JLabel.BOTTOM);
         photographLabel.setHorizontalTextPosition(JLabel.CENTER);
         photographLabel.setHorizontalAlignment(JLabel.CENTER);
-        photographLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        photographLabel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         
         // We add two glue components. Later in process() we will add thumbnail buttons
         // to the toolbar inbetween thease glue compoents. This will center the
         // buttons in the toolbar.
-        buttonBar.add(Box.createGlue());
+        //buttonBar.add(Box.createGlue());
+       
         buttonBar.add(Box.createGlue());
         
-        add(buttonBar, BorderLayout.SOUTH);
+        ImageIcon icon;
+        icon = createImageIcon(imagedir + imageFileNames[0], imageCaptions[0]);
+        photographLabel.setIcon(icon);
         add(photographLabel, BorderLayout.CENTER);
+        add(buttonBar, BorderLayout.SOUTH);
         
         setSize(400, 300);
-        
-        
+
         // start the image loading SwingWorker in a background thread
         loadimages.execute();
     }
@@ -142,17 +144,15 @@ public class IconDemoApp extends JPanel{
          */
         @Override
         protected Void doInBackground() throws Exception {
+
             for (int i = 0; i < imageCaptions.length; i++) {
                 ImageIcon icon;
                 icon = createImageIcon(imagedir + imageFileNames[i], imageCaptions[i]);
                 
                 ThumbnailAction thumbAction;
-                if(icon != null){
-                    
-                    ImageIcon thumbnailIcon = new ImageIcon(getScaledImage(icon.getImage(), 32, 32));
-                    
+                if(icon != null){                    
+                    ImageIcon thumbnailIcon = new ImageIcon(getScaledImage(icon.getImage(), 32, 32)); 
                     thumbAction = new ThumbnailAction(icon, thumbnailIcon, imageCaptions[i]);
-                    
                 }else{
                     // the image failed to load for some reason
                     // so load a placeholder instead
@@ -160,8 +160,6 @@ public class IconDemoApp extends JPanel{
                 }
                 publish(thumbAction);
             }
-            // unfortunately we must return something, and only null is valid to
-            // return when the return type is void.
             return null;
         }
         
@@ -184,8 +182,9 @@ public class IconDemoApp extends JPanel{
      * @param String - resource path
      * @param String - description of the file
      */
-    protected ImageIcon createImageIcon(String path,
-            String description) {
+    
+    
+    protected ImageIcon createImageIcon(String path, String description) {
         java.net.URL imgURL = getClass().getResource(path);
         if (imgURL != null) {
             return new ImageIcon(imgURL, description);
@@ -210,7 +209,7 @@ public class IconDemoApp extends JPanel{
         g2.dispose();
         return resizedImg;
     }
-    
+
     /**
      * Action class that shows the image specified in it's constructor.
      */
