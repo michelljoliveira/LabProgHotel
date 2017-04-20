@@ -10,7 +10,7 @@ public class QuartoFamilia extends Quarto {
 	@Override
 	public void setPreco(double preco) {
 
-		super.preco = preco * getNumCamas();
+		super.preco = 5 * getNumCamas();
 
 	}
 
