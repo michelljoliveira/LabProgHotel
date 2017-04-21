@@ -4,6 +4,7 @@ package projeto;
 import static java.lang.System.lineSeparator;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.JPopupMenu;
 
@@ -13,8 +14,8 @@ public abstract  class Quarto {
     private int numCamas;
     private boolean status;
     private String vista;
-    private Calendar dataEntrada;
-    private Calendar dataSaída;
+    private Date dataEntrada;
+    private Date dataSaída;
     protected double preco;
     
     
@@ -69,6 +70,32 @@ public abstract  class Quarto {
     }
     
     public abstract void setPreco(double preco);
+
+
+	public Date getDataEntrada() {
+		boolean status = true;
+		return dataEntrada;
+	}
+
+
+	public void setDataEntrada(Date dataEntrada) {
+		this.dataEntrada = dataEntrada;
+	}
+
+
+	public Date getDataSaída() {
+		return dataSaída;
+	}
+
+
+	public void setDataSaída(Date dataSaída) {
+		this.dataSaída = dataSaída;
+	}
+
+
+	public double getPreco() {
+		return preco;
+	}
     
     
     
