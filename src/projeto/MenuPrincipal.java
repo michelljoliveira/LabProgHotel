@@ -9,6 +9,7 @@ public class MenuPrincipal {
 	private static Scanner sc = new Scanner(System.in);
 	private static ArrayList<Cliente> clientes = new ArrayList<Cliente>(); 
 	private static Hotel  ht = new Hotel();
+	private static int saldoHotel = 0;
 
 	public static void main(String[] args) {
 		
@@ -34,17 +35,18 @@ public class MenuPrincipal {
 	}
 
 	private static void menuContabilidade() {
-		imprimeMenuContabilidade();
+		
 		int op;
 		do{
+			imprimeMenuContabilidade();
 			op = sc.nextInt();
 			switch (op){
 
 			case 1:		break;
 
-			case 2:		break;
+			case 2:		efetuarPagamento();break;
 
-			case 3:		break;
+			case 3:		mostraSaldoHotel();break;
 
 			case 4:		break;
 
@@ -53,8 +55,193 @@ public class MenuPrincipal {
 		}while(op>=1 && op<4);
 	}
 
+	
+
+	private static void efetuarPagamento() {
+		
+		int op;
+		do{
+			imprimeMenuPagamento();
+			op = sc.nextInt();
+			switch (op){
+
+			case 1:		pagamentoCartao();break;
+
+			case 2:		pagamentoDinheiro();break;
+
+			case 3:		break;
+
+			default:    System.out.println("Opção invalida "+System.lineSeparator());
+			}
+		}while(op>=1 && op<3);
+	}
+	
+
+	private static void pagamentoDinheiro() {
+		
+		boolean condi = true;
+		Cliente novo;
+		double valor,troco =0;
+		do{
+			System.out.println("Modulo Pagamento em Dinheiro"+System.lineSeparator());
+
+			String nome = obtem("Digite o nome do(a) Cliente: "+ System.lineSeparator(),3);
+			novo = retornaCliente(nome);
+			if (novo != null){
+				System.out.println("O(a) cliente "+ novo.getNome() + " possui o(s) seguinte(s) Check-In(s):"+ System.lineSeparator());
+				Iterator it = novo.quartos.iterator();
+				while(it.hasNext()){
+					System.out.println(it.next());
+				}
+				int numQuarto = obtemInt("Digite o numero do quarto para fazer Pagamento: ", 9);
+				if(numQuarto == 0){
+					condi = false;
+					System.out.println("Operacao de Pagamento cancelada."+ System.lineSeparator());
+				}else{
+					Quarto q = buscaQuarto(numQuarto);
+					if (q!= null){
+						System.out.println("Quarto Escolhido: " + System.lineSeparator()+q);
+						valor = obtemDouble("Valor recebido: R$ ", q.preco);
+						if(valor < q.preco){
+							System.out.println("Ainda existe Saldo pendente da operacao."+ System.lineSeparator());
+							
+						}else{
+							novo.subtraiSaldo(q.preco);
+							removeQuarto(novo,q);
+						}
+						
+						
+						
+						
+						System.out.println("Operacao de Pagamento em dinheiro no valor de R$ "+ valor);
+						System.out.println("Deseja confimar operacao? (1 - Sim, 2 - Nao)");
+						int op = sc.nextInt();
+						if (op == 1){
+							double saldoParcial = novo.getSaldo();
+							if(valor > q.preco){
+								troco = valor - q.preco;
+								removeQuarto(novo,q);
+							}else if (valor < q.preco){
+								novo.subtraiSaldo(valor);
+								removeQuarto(novo,q);
+							}
+							
+							System.out.println("Pagamento realizado com sucesso."+ System.lineSeparator());
+							System.out.println("Pagamento em dinheiro: R$" +valor + System.lineSeparator());
+							if(valor> q.preco){
+								System.out.println("Valor do troco: R$ "+ troco);
+							}
+							System.out.println("Saldo Atual para Cliente "+ novo.getNome()+ " de R$ "+ novo.getSaldo());
+							condi = false;
+						}else if(op == 2 || op == 0){
+							System.out.println("Operacao de Pagamento Cancelada.");
+							condi = false;
+						}else{
+							System.out.println("Opcao invalida. Digite um valor: 1 - Sim ou 2 - Nao");
+						}
+						
+						condi = false;
+					}else{
+						condi = false;
+					}
+				}
+				
+				condi = false;
+
+			}else{
+				System.out.println("O(a) cliente "+ nome+ " nao foi encontrado.");
+				condi = false;
+			}
+			
+
+		}while(condi);	
+		
+
+		
+		
+	}
+
+	
+
+	private static double obtemDouble(String string, double preco) {
+		double num;
+		boolean condi = true;
+		do{
+			System.out.print(string);
+			num = sc.nextInt();
+			if(num<=0){
+				System.out.println("Valor nao permitido."+ System.lineSeparator());
+			}else{
+				condi = false;
+			}
+			
+		}while(condi);
+		
+		return num;
+	}
+
+	private static void pagamentoCartao() {
+		
+		boolean condi = true;
+		Cliente novo;
+		do{
+			System.out.println("Modulo Pagamento Cartao"+System.lineSeparator());
+
+			String nome = obtem("Digite o nome do(a) Cliente: "+ System.lineSeparator(),3);
+			novo = retornaCliente(nome);
+			if (novo != null){
+				System.out.println("O(a) cliente "+ novo.getNome() + " possui o(s) seguinte(s) Check-In(s):"+ System.lineSeparator());
+				Iterator it = novo.quartos.iterator();
+				while(it.hasNext()){
+					System.out.println(it.next());
+				}
+				int numQuarto = obtemInt("Digite o numero do quarto para fazer Pagamento: ", 9);
+				if(numQuarto == 0){
+					condi = false;
+					System.out.println("Operacao de Pagamento cancelada."+ System.lineSeparator());
+				}else{
+					Quarto q = buscaQuarto(numQuarto);
+					if (q!= null){
+						System.out.println("Quarto Escolhido: " + System.lineSeparator()+q);
+						String numeroCartao = obtem("Digite o numero do cartao: ", 16);
+						String codigoSeg =   obtem("Digite o numero do codigo de Seguranca: ", 3);
+						System.out.println("Operacao de Pagamento no valor de R$ "+ q.preco);
+						System.out.println("Deseja confimar operacao? (1 - Sim, 2 - Nao)");
+						int op = sc.nextInt();
+						if (op == 1){
+							novo.subtraiSaldo(q.preco);
+							removeQuarto(novo,q);
+							System.out.println("Pagamento realizado com sucesso."+ System.lineSeparator());
+							System.out.println("Pagamento Efetuado sob cartao: " + numeroCartao +", codigo de seguranca: "+ codigoSeg +", Cpf: " + novo.getCpf() + System.lineSeparator());
+							System.out.println("Saldo Atual para Cliente "+ novo.getNome()+ " de R$ "+ novo.getSaldo());
+							condi = false;
+						}else if(op == 2 || op == 0){
+							System.out.println("Operacao de Pagamento Cancelada.");
+							condi = false;
+						}else{
+							System.out.println("Opcao invalida. Digite um valor: 1 - Sim ou 2 - Nao");
+						}
+						
+						condi = false;
+					}else{
+						condi = false;
+					}
+				}
+				
+				condi = false;
+
+			}else{
+				System.out.println("O(a) cliente "+ nome+ " nao foi encontrado.");
+				condi = false;
+			}
+			
+
+		}while(condi);	
+		
+	
+	}
+
 	private static void menuGerenciaHotel() {
-		//TODO
 		int op;
 		do{
 			imprimeMenuGerenciaHotel();
@@ -105,24 +292,35 @@ public class MenuPrincipal {
 	private static void menuRemoverCliente() {
 		boolean condi = true;
 		boolean condi2 = true;
+		Cliente novo;
 		do{
 			String nome = obtem("Digite o nome do cliente a ser excluido: ",3);
 			if(retornaCliente(nome) == null){
 				System.out.println(nome +" nao encontrado.");
 				condi = false;
 			}else{
+				novo = retornaCliente(nome);
 				@SuppressWarnings("rawtypes")
 				Iterator it = clientes.iterator();
 				while(it.hasNext()){
+					
 					if(((Cliente) it.next()).getNome().equals(nome)){
 						do{
 							System.out.println("Voce realmente deseja remover o(a) cliente "+ nome+ "?");
 							System.out.println("1 - Sim ou 2 - Nao");
 							int op = sc.nextInt();
 							if (op == 1){
-								it.remove();
-								System.out.println("O(A) Cliente "+ nome + " foi removido com sucesso."+ System.lineSeparator());
-								condi = false;condi2=false;
+								if(novo.getSaldo() != 0){
+									System.out.println("O(a) cliente "+ novo.getNome() + ", possui saldo ativo. Favor verificar informacoes no Modulo de contabilidade.");
+									System.out.println("Remocao de cliente nao efetuada." + System.lineSeparator());
+									condi = false;condi2=false;
+								}else{
+									it.remove();
+									System.out.println("O(A) Cliente "+ nome + " foi removido com sucesso."+ System.lineSeparator());
+									condi = false;condi2=false;
+								}
+								
+								
 							}else if(op == 2){
 								System.out.println("Remocao Cancelada.");
 								condi = false;condi2=false;
@@ -239,7 +437,6 @@ public class MenuPrincipal {
 		
 	}
 	private static void registrarSaida() {
-		//TODO
 		boolean condi = true;
 		Cliente novo;
 		do{
@@ -260,7 +457,6 @@ public class MenuPrincipal {
 				}else{
 					Quarto q = buscaQuarto(numQuarto);
 					if (q!= null){
-						//TODO
 						System.out.println("Quarto Escolhido: " + System.lineSeparator()+q);
 						registroCheckOut(novo,q);
 						condi = false;
@@ -282,7 +478,6 @@ public class MenuPrincipal {
 
 
 	private static void registroCheckOut(Cliente novo, Quarto q) {
-		//TODO
 		boolean condi = true;
 		System.out.println("Confirme os dados do Check-Out da reserva do quarto #" + q.getNumQuarto());
 		System.out.println("Valor atual do Quarto: R$ "+ q.preco);
@@ -410,6 +605,9 @@ public class MenuPrincipal {
 		}
 		return null;
 	}
+	private static void mostraSaldoHotel() {
+		System.out.println("O Saldo de pagamentos efetuados por clientes ate o momento: R$ "+ saldoHotel);
+	}
 	
 	/**
 	 * Metodo para obtencao de uma string  
@@ -446,6 +644,10 @@ public class MenuPrincipal {
 		
 		return num;
 	}
+	private static void removeQuarto(Cliente novo, Quarto q) {
+		novo.removeQuarto(q);
+		q.setStatus(true);
+	}
 
 	private static void imprimeMenuPrincipal() {
 		System.out.println("Menu Administracao"+System.lineSeparator());
@@ -480,6 +682,12 @@ public class MenuPrincipal {
 		System.out.println("3 - Saldo em Caixa");
 		System.out.println("4 - Voltar"+System.lineSeparator());
 		System.out.print("Opcao: ");
-		
+	}
+	private static void imprimeMenuPagamento() {
+		System.out.println("Menu de Pagamento"+System.lineSeparator());
+		System.out.println("1 - Pagamento em Cartao");
+		System.out.println("2 - Pagamento em dinheiro");
+		System.out.println("3 - Voltar"+System.lineSeparator());
+		System.out.print("Opcao: ");
 	}
 }

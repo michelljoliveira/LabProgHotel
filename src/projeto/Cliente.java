@@ -1,6 +1,7 @@
 package projeto;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Cliente  {
@@ -52,5 +53,16 @@ public class Cliente  {
 	@Override
 	public String toString() {
 		return "Cliente [Nome: " + nome + ", Sobrenome: " + sobrenome + ", cpf: " + cpf + ", Saldo Atual: " + saldo + "]";
+	}
+
+	public void removeQuarto(Quarto q) {
+		Iterator<Quarto> it = quartos.iterator();
+		Quarto procura;
+		while(it.hasNext()){
+			procura = it.next();
+			if(q.equals(procura)){
+				it.remove();
+			}
+		}
 	}
 }
