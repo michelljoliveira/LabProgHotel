@@ -6,6 +6,10 @@ public class QuartoFamilia extends Quarto {
 		
 		setNumCamas(4);
 	}
+	public QuartoFamilia(int numQuarto){
+		super(numQuarto);
+		setNumCamas(4);
+	}
 
 	@Override
 	public void setPreco(double preco) {

@@ -8,6 +8,10 @@ public class QuartoSolteiro extends Quarto {
 		
 		setNumCamas(1);
 	}
+	public QuartoSolteiro(int numQuarto){
+		super(numQuarto);
+		setNumCamas(1);
+	}
 	
 	@Override
 	public void setPreco(double preco) {

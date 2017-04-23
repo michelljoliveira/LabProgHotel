@@ -6,39 +6,39 @@
 package projeto;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-/**
- *
- * @author Casa
- */
+
 public class Hotel {
     
     private List<Quarto> listQuarto = new ArrayList<>();
-    private QuartoSolteiro [] quartoSolteiro;
-    private QuartoCasal[] quartoCasal;
-    private QuartoFamilia[] quartoFamilia;
+    private int contador = 1;
     
     
     
     public Hotel(){
         
         //Inicia o Hotel com 9 quartos 3 para solteiros, 3 para casais e 4 para familia
-    	quartoSolteiro  = new QuartoSolteiro[3];
-    	quartoCasal = new QuartoCasal[3];
-    	quartoFamilia = new QuartoFamilia[3];
     	
     	for(int i=0; i<3; i++){
-    		listQuarto.add(quartoSolteiro[i]);
-    		listQuarto.add(quartoCasal[i]);
-    		listQuarto.add(quartoFamilia[i]);
+    		Quarto q = new QuartoSolteiro(contador++);
+    		listQuarto.add(q);
+    	}
+    	for(int i=0; i<3; i++){
+    		Quarto q = new QuartoCasal(contador++);
+    		listQuarto.add(q);
+    	}
+    	for(int i=0; i<3; i++){
+    		Quarto q = new QuartoFamilia(contador++);
+    		listQuarto.add(q);
     	}
        
     }
     
     public List getList(){
         
-        return this.listQuarto;
+        return listQuarto;
     }
     
     

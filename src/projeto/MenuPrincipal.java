@@ -2,11 +2,13 @@ package projeto;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 
 public class MenuPrincipal {
 	private static Scanner sc = new Scanner(System.in);
 	private static ArrayList<Cliente> clientes = new ArrayList<Cliente>(); 
+	private static Hotel  ht = new Hotel();
 
 	public static void main(String[] args) {
 		
@@ -38,7 +40,6 @@ public class MenuPrincipal {
 			op = sc.nextInt();
 			switch (op){
 
-
 			case 1:		break;
 
 			case 2:		break;
@@ -53,17 +54,18 @@ public class MenuPrincipal {
 	}
 
 	private static void menuGerenciaHotel() {
-		imprimeMenuGerenciaHotel();
+		//TODO
 		int op;
 		do{
+			imprimeMenuGerenciaHotel();
 			op = sc.nextInt();
 			switch (op){
 
-			case 1:		break;
+			case 1:		cadastroNovaReserva();break;
 
 			case 2:		break;
 
-			case 3:		break;
+			case 3:		mostrarQuartosDisponiveis();break;
 
 			case 4:		break;
 			
@@ -150,7 +152,7 @@ public class MenuPrincipal {
 	}
 
 	private static void cadastroNovoCliente() {
-		System.out.println("Novo Cliente"+ System.lineSeparator());
+		System.out.println("Novo(a) Cliente"+ System.lineSeparator());
 		String nome = obtem("Nome: ",3);
 		String sobrenome = obtem("Sobrenome: ",3);
 		String cpf = obtem("Cpf: ",11);
@@ -158,8 +160,72 @@ public class MenuPrincipal {
 		clientes.add(p1);
 		System.out.println("O(A) Cliente "+ nome + " "+ sobrenome+ " foi cadastrado(a) com sucesso."+ System.lineSeparator());
 	}
+	
+	private static void cadastroNovaReserva(){
+		boolean condi = true;
+		Cliente novo;
+		do{
+
+
+			String nome = obtem("Digite o nome do(a) Cliente: "+ System.lineSeparator(),3);
+			novo = retornaCliente(nome);
+			if (novo != null){
+				mostrarQuartosDisponiveis();
+				
+				
+				int numQuarto =obtemInt("Digite o numero do quarto a ser reservado. (Zero cancela a operacao): ", 9);
+				if(numQuarto == 0){
+					condi = false;
+					System.out.println("Operacao de reserva cancelada."+ System.lineSeparator());
+				}else{
+					Quarto q = buscaQuarto(numQuarto);
+					if (q!= null){
+						//TODO
+						System.out.println("Quarto Escolhido: " + System.lineSeparator()+q);
+						
+						condi = false;
+					}else{
+						condi = false;
+					}
+				}
+				
+				condi = false;
+
+			}else{
+				System.out.println("O(a) cliente "+ nome+ " nao foi encontrado.");
+				condi = false;
+			}
+			
+
+		}while(condi);
+		
+	}
+	private static Quarto buscaQuarto(int numQuarto) {
+		Iterator it = ht.getList().iterator();
+		while(it.hasNext()){
+			Quarto q = (Quarto) it.next();
+			if (q.getNumQuarto()==numQuarto){
+				return q;
+			}
+			
+		}
+		
+		return null;
+	}
+
+	private static void mostrarQuartosDisponiveis() {
+		Iterator it = ht.getList().iterator();
+		while(it.hasNext()){
+			Quarto q = (Quarto) it.next();
+			if (q.isStatus()){
+				System.out.println(q + System.lineSeparator());
+			}
+			
+		}
+		
+	}
+
 	private static void menuEditarCliente() {
-		//TODO
 		System.out.println("Menu Editar Cliente"+System.lineSeparator());
 		int op = 0;
 		boolean condi = true;
@@ -195,12 +261,10 @@ public class MenuPrincipal {
 					auxiliar.setNome(obtem("Digite o novo nome:", 3));
 					condi2= false;
 					condi1= false;
-					
 				}
 				condi1 = false;
 				condi2= false;
 			}
-			
 		}
 	}
 	private static void editarsobrenome() {
@@ -223,7 +287,6 @@ public class MenuPrincipal {
 				condi1 = false;
 				condi2= false;
 			}
-			
 		}
 	}
 
@@ -260,6 +323,23 @@ public class MenuPrincipal {
 		}while(nome.length()<tamanhoMin);
 		
 		return nome;
+	}
+	
+	private static int obtemInt(String string,int tamanhoMax) {
+		int num;
+		boolean condi = true;
+		do{
+			System.out.print(string);
+			num = sc.nextInt();
+			if(num>tamanhoMax){
+				System.out.println("Valor invalido."+ System.lineSeparator());
+			}else{
+				condi = false;
+			}
+			
+		}while(condi);
+		
+		return num;
 	}
 
 	private static void imprimeMenuPrincipal() {

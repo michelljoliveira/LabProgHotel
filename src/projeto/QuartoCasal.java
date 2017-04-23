@@ -4,8 +4,12 @@ public class QuartoCasal extends Quarto {
 
 	
 	
-public QuartoCasal(){
+	public QuartoCasal(){
 		
+		setNumCamas(2);
+	}
+	public QuartoCasal(int numQuarto){
+		super(numQuarto);
 		setNumCamas(2);
 	}
 	

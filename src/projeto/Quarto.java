@@ -27,6 +27,18 @@ public abstract  class Quarto {
         mesFinalReserva = mesReserva;
         anoFinalReserva = anoReserva;
     }
+public Quarto(int numQuarto){
+        
+        //Inicia ele como disponivel
+        setStatus(true);
+        diaReserva = c.get(Calendar.DAY_OF_MONTH);
+        mesReserva = c.get(Calendar.MONTH) +1;
+        anoReserva = c.get(Calendar.YEAR);
+        diaFinalReserva = diaReserva;
+        mesFinalReserva = mesReserva;
+        anoFinalReserva = anoReserva;
+        this.numQuarto = numQuarto;
+    }
     
     
     public int getNumCamas() {
