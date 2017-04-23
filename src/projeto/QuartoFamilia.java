@@ -9,13 +9,15 @@ public class QuartoFamilia extends Quarto {
 	public QuartoFamilia(int numQuarto){
 		super(numQuarto);
 		setNumCamas(4);
+		setPreco(200);
 	}
 
 	@Override
 	public void setPreco(double preco) {
-
-		super.preco = 5 * getNumCamas();
-
+		super.preco = preco * getNumCamas();
+	}
+	public double getPreco(){
+		return preco;
 	}
 
 	@Override

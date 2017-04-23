@@ -1,7 +1,12 @@
 package projeto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Cliente  {
-	private String nome,sobrenome,cpf, senha;
+	private String nome,sobrenome,cpf; 
+	double saldo = 0;
+	protected List<Quarto> quartos = new ArrayList<>();
 	
 	public Cliente(String nome,String sobrenome, String cpf){
 		this.nome = nome;
@@ -33,21 +38,19 @@ public class Cliente  {
 		this.cpf = cpf;
 	}
 
-	public String getSenha() {
-		return senha;
+	public double getSaldo() {
+		return saldo;
 	}
 
-	public void setSenha(String senha) {
-		this.senha = senha;
+	public void adicionaSaldo(double saldo) {
+		this.saldo += saldo;
+	}
+	public void subtraiSaldo(double saldo) {
+		this.saldo -= saldo;
 	}
 
 	@Override
 	public String toString() {
-		return "Cliente [nome=" + nome + ", sobrenome=" + sobrenome + ", cpf=" + cpf + ", senha=" + senha + "]";
+		return "Cliente [Nome: " + nome + ", Sobrenome: " + sobrenome + ", cpf: " + cpf + ", Saldo Atual: " + saldo + "]";
 	}
-
-	
-
-	
-
 }

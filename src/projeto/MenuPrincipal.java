@@ -63,7 +63,7 @@ public class MenuPrincipal {
 
 			case 1:		cadastroNovaReserva();break;
 
-			case 2:		break;
+			case 2:		registrarSaida();break;
 
 			case 3:		mostrarQuartosDisponiveis();break;
 
@@ -180,9 +180,8 @@ public class MenuPrincipal {
 				}else{
 					Quarto q = buscaQuarto(numQuarto);
 					if (q!= null){
-						//TODO
 						System.out.println("Quarto Escolhido: " + System.lineSeparator()+q);
-						
+						registroReserva(novo,q);
 						condi = false;
 					}else{
 						condi = false;
@@ -200,6 +199,112 @@ public class MenuPrincipal {
 		}while(condi);
 		
 	}
+	private static void registroReserva(Cliente novo, Quarto q) {
+		boolean condi = true;
+		System.out.println("Confirme os dados do registro da reserva do quarto #" + q.getNumQuarto());
+		System.out.println("Valor atual do Quarto: R$ "+ q.preco);
+		System.out.println("Numero de camas: " + q.getNumCamas());
+		int opcao = obtemInt("Confirmar reserva? (1 - Sim, 2 - Nao): ", 2);
+		if(opcao == 1){
+			do{
+				int diaInicial = obtemInt("Dia do Check-in: ", 31);
+				int mesInicial = obtemInt("Mes do Check-in: ", 12);
+				int diaFinal = obtemInt("Data do Check-out: ", 31);
+				int mesFinal = obtemInt("Mes do Check-out: ", 12);
+				if (diaInicial == 0 || mesInicial == 0 || diaFinal == 0 || mesFinal == 0){
+					condi = false;
+					System.out.println("Registro de quarto cancelado."+ System.lineSeparator());
+				}else{
+					q.setDiaReserva(diaInicial);
+					q.setMesReserva(mesInicial);
+					q.setDiaFinalReserva(diaFinal);
+					q.setMesFinalReserva(mesFinal);
+					q.setStatus(false);	
+					novo.adicionaSaldo(q.preco);
+					novo.quartos.add(q);
+					System.out.println("Reserva concluida com sucesso."+  System.lineSeparator()+
+					"O Valor do quarto foi adicionado a conta do(a) cliente: "
+							+ novo.getNome() +" no total de: R$" + q.preco + System.lineSeparator()+
+							"O cliente possui um saldo total atual de: R$ "+novo.getSaldo());
+					condi = false;
+				}
+				
+				
+			}while(condi);
+			
+			
+		}else{
+			System.out.println("Registro de quarto cancelado."+ System.lineSeparator());
+		}
+		
+	}
+	private static void registrarSaida() {
+		//TODO
+		boolean condi = true;
+		Cliente novo;
+		do{
+			System.out.println("Check-Out");
+
+			String nome = obtem("Digite o nome do(a) Cliente: "+ System.lineSeparator(),3);
+			novo = retornaCliente(nome);
+			if (novo != null){
+				System.out.println("O(a) cliente "+ novo.getNome() + " possui o(s) seguinte(s) Check-In(s):"+ System.lineSeparator());
+				Iterator it = novo.quartos.iterator();
+				while(it.hasNext()){
+					System.out.println(it.next());
+				}
+				int numQuarto = obtemInt("Digite o numero do quarto para fazer Check-out: ", 9);
+				if(numQuarto == 0){
+					condi = false;
+					System.out.println("Operacao de Check-out cancelada."+ System.lineSeparator());
+				}else{
+					Quarto q = buscaQuarto(numQuarto);
+					if (q!= null){
+						//TODO
+						System.out.println("Quarto Escolhido: " + System.lineSeparator()+q);
+						registroCheckOut(novo,q);
+						condi = false;
+					}else{
+						condi = false;
+					}
+				}
+				
+				condi = false;
+
+			}else{
+				System.out.println("O(a) cliente "+ nome+ " nao foi encontrado.");
+				condi = false;
+			}
+			
+
+		}while(condi);	
+	}
+
+
+	private static void registroCheckOut(Cliente novo, Quarto q) {
+		//TODO
+		boolean condi = true;
+		System.out.println("Confirme os dados do Check-Out da reserva do quarto #" + q.getNumQuarto());
+		System.out.println("Valor atual do Quarto: R$ "+ q.preco);
+		System.out.println("Numero de camas: " + q.getNumCamas());
+		int opcao = obtemInt("Confirmar Check-Out? (1 - Sim, 2 - Nao): ", 2);
+		if(opcao == 1){
+			do{
+				q.setStatus(true);
+				System.out.println("Check-Out realizado com sucesso. Nao esqueca de checar seu saldo.");
+				System.out.println("Agradecemos a preferencia!, Volte Sempre."+ System.lineSeparator());
+				condi = false;
+				
+			}while(condi);
+			
+			
+		}else{
+			System.out.println("Check-Out de quarto cancelado."+ System.lineSeparator());
+		}
+
+		
+	}
+
 	private static Quarto buscaQuarto(int numQuarto) {
 		Iterator it = ht.getList().iterator();
 		while(it.hasNext()){
@@ -371,8 +476,8 @@ public class MenuPrincipal {
 	private static void imprimeMenuContabilidade() {
 		System.out.println("Menu Contabilidade"+System.lineSeparator());
 		System.out.println("1 - Planilha de lucro atual");
-		System.out.println("2 - Projecao orcamentaria");
-		System.out.println("3 - Em breve");
+		System.out.println("2 - Efetuar Pagamento");
+		System.out.println("3 - Saldo em Caixa");
 		System.out.println("4 - Voltar"+System.lineSeparator());
 		System.out.print("Opcao: ");
 		

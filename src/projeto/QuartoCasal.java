@@ -11,15 +11,16 @@ public class QuartoCasal extends Quarto {
 	public QuartoCasal(int numQuarto){
 		super(numQuarto);
 		setNumCamas(2);
+		setPreco(200);
 	}
-	
 	
 	@Override
 	public void setPreco(double preco) {
-		// TODO Auto-generated method stub
-		
 		super.preco = preco * getNumCamas();
 
+	}
+	public double getPreco(){
+		return preco;
 	}
 
 	@Override
