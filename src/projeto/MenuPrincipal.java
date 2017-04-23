@@ -109,10 +109,6 @@ public class MenuPrincipal {
 							novo.subtraiSaldo(q.preco);
 							removeQuarto(novo,q);
 						}
-						
-						
-						
-						
 						System.out.println("Operacao de Pagamento em dinheiro no valor de R$ "+ valor);
 						System.out.println("Deseja confimar operacao? (1 - Sim, 2 - Nao)");
 						int op = sc.nextInt();
@@ -120,9 +116,11 @@ public class MenuPrincipal {
 							double saldoParcial = novo.getSaldo();
 							if(valor > q.preco){
 								troco = valor - q.preco;
+								saldoHotel += q.preco;
 								removeQuarto(novo,q);
 							}else if (valor < q.preco){
 								novo.subtraiSaldo(valor);
+								saldoHotel += valor;
 								removeQuarto(novo,q);
 							}
 							
@@ -210,6 +208,7 @@ public class MenuPrincipal {
 						int op = sc.nextInt();
 						if (op == 1){
 							novo.subtraiSaldo(q.preco);
+							saldoHotel += q.preco;
 							removeQuarto(novo,q);
 							System.out.println("Pagamento realizado com sucesso."+ System.lineSeparator());
 							System.out.println("Pagamento Efetuado sob cartao: " + numeroCartao +", codigo de seguranca: "+ codigoSeg +", Cpf: " + novo.getCpf() + System.lineSeparator());
@@ -363,8 +362,6 @@ public class MenuPrincipal {
 		boolean condi = true;
 		Cliente novo;
 		do{
-
-
 			String nome = obtem("Digite o nome do(a) Cliente: "+ System.lineSeparator(),3);
 			novo = retornaCliente(nome);
 			if (novo != null){
